@@ -1,16 +1,40 @@
 import json
-import rsa
 from EncDec import enc, dec
 import RSASign
 import rsa
-import check_trans
-import save_changes
 import Network
 import os
+import time
+import hashlib
 
 
 class BlockChain:
     net = Network.Network()
+    def __init__(self):
+        path = 'C:\\Users\\USER\\PycharmProjects\\Blockchain-master\\chain'
+        if not os.path.exists(path):
+            os.mkdir(path)
+            genesis = {
+                'number': 0,
+                'timestamp': time.time(),
+                'tx': [],
+                'pre_hash': '0',
+                'nonce': '0'
+            }
+            gen_block = json.dumps(genesis, sort_keys=True).encode()
+            hash = hashlib.sha256(gen_block).hexdigest()
+            gen_block = json.loads(gen_block.decode())
+            gen_block.update({'hash': hash})
+            gen_block = json.dumps(gen_block, sort_keys=True)
+            with open(path+'\\block0.txt', 'w') as null_block:
+                null_block.write(gen_block)
+            path = 'C:\\Users\\USER\\PycharmProjects\\Blockchain-master\\ok-hash.txt'
+            if not os.path.exists(path):
+                with open(path, 'w') as ok_hash:
+                    ok_hash.write({"hash": "4ffea55224e8a591a0cc6cfde312d4e70316f3e5dcc610f249315b143baa653a", "ok": "{\"e\": 65537, \"n\": 8832147426935966027004346907635331312243117207248068249798793770255810614730058533503089714736970883944587428808916211269625070032692996144653578133245057}", "pass_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"})
+
+
+
     def get_package(self, package):
         '''
         Исходя из типа пакета, который пришел из сети, определяем, что с ним делать дальше

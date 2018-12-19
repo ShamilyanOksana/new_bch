@@ -30,7 +30,7 @@ class Auth:
         keys = json.dumps(keys, sort_keys=True)
         # file_name = str(hash) + "_keys.txt"
         # print(file_name)
-        f = open('ok-ck.txt', 'w')
+        f = open(hash+'.txt', 'w')
         f.write(keys)
         f.close()
 

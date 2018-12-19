@@ -54,12 +54,13 @@ class Network:
         try:
             status = 0
             with open('ip.txt', 'r') as ips:
-                    for row in ips:
-                        if row[:-1] == ip:
-                            status = 0
-                            break
-                        else:
-                            status = 1
+                header = ips.readline()
+                for row in ips:
+                    if row[:-1] == ip:
+                        status = 0
+                        break
+                    else:
+                        status = 1
             if status:
                 with open('ip.txt', 'a') as ips:
                     ips.write(ip+'\n')
